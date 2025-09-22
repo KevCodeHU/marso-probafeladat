@@ -17,10 +17,10 @@ A termékek CSV-ből importálhatók.
 - CSV import a termékekhez (`app:import-products`)
 
 ### Frontend
-- Vue.js 3 + Vite
-- Tailwind CSS 4
-- Fetch alapú REST kommunikáció
-- SPA jellegű működés
+- Vue.js 3 + Vite  
+- Tailwind CSS 4  
+- Fetch alapú REST kommunikáció  
+- SPA jellegű működés  
 
 ---
 
@@ -75,19 +75,19 @@ SPA viselkedés
 ## 7. Fejlesztői útmutató
 
 ### Backend indítása:
-cd backend
-php bin/console doctrine:database:create
-php bin/console doctrine:migrations:migrate
-php bin/console app:import-products products.csv
-symfony serve
+cd backend  
+php bin/console doctrine:database:create  
+php bin/console doctrine:migrations:migrate  
+php bin/console app:import-products products.csv  
+symfony serve  
 
 ### Frontend indítása:
-cd frontend
-npm install
-npm run dev
+cd frontend  
+npm install  
+npm run dev  
 
 ---
 
 ## 8. Tesztelés
-API végpontok ellenőrzése:
+API végpontok ellenőrzése:  
 http://localhost:8000/api/products
