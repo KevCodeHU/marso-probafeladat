@@ -88,12 +88,28 @@ class ImportProductsCommand extends Command
                 $count++;
             }
 
+            // --- Gumi típus automatikus beállítása ---
+            $nameUpper = strtoupper($record['name']);
+            if (str_contains($nameUpper, 'M+S')) {
+                $type = str_contains($nameUpper, '3PMSF') ? 'winter' : 'all-season';
+            } else {
+                $type = 'summer';
+            }
+
+            // --- Gumi átmérő automatikus beállítása ---
+            $diameter = null;
+            if (preg_match('/R(\d{2})/i', $record['name'], $matches)) {
+                $diameter = (int)$matches[1];
+            }
+
             $product->setName(trim($record['name']));
             $product->setPrice((float)($record['price'] ?? 0));
             $product->setNetPrice((float)($record['net_price'] ?? 0));
             $product->setImage(trim($record['image_url'] ?? ''));
             $product->setDescription('Lorem ipsum dolor sit amet...');
             $product->setCategory($category);
+            $product->setType($type);
+            $product->setDiameter($diameter);
         }
 
 

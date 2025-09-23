@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "acd27eed-aeaa-4cfc-a0d5-b980d56df483",
+		"name": "marso-probafeladat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47085905",
+		"_collection_link": "https://descent-module-geologist-53291311-5886468.postman.co/workspace/KevCode's-Workspace~c5510dea-7bf1-48af-8ab2-4437f09215d8/collection/47085905-acd27eed-aeaa-4cfc-a0d5-b980d56df483?action=share&source=collection_link&creator=47085905"
+	},
+	"item": [
+		{
+			"name": "All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/product/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"product",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"János\",\r\n  \"lastName\": \"Kovács\",\r\n  \"zipCode\": \"1111\",\r\n  \"city\": \"Budapest\",\r\n  \"street\": \"Fő utca 1\",\r\n  \"phone\": \"+36123456789\",\r\n  \"email\": \"janos@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

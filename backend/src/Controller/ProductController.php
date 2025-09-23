@@ -33,8 +33,13 @@ class ProductController extends AbstractController
     }
 
     #[Route('/api/product/{id}', name: 'api_product_detail', methods: ['GET'])]
-    public function detail(Product $product): JsonResponse
+    public function detail(int $id, ProductRepository $productRepository): JsonResponse
     {
+        $product = $productRepository->find($id);
+        if (!$product) {
+            return $this->json(['error' => 'Product not found'], 404);
+        }
+
         return $this->json([
             'id' => $product->getId(),
             'externalId' => $product->getExternalId(),

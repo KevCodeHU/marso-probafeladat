@@ -32,6 +32,12 @@ class Product
     #[ORM\ManyToOne(targetEntity: Category::class)]
     private $category;
 
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    private $type;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $diameter;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -97,6 +103,24 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+        return $this;
+    }
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+        return $this;
+    }
+    public function getDiameter(): ?int
+    {
+        return $this->diameter;
+    }
+    public function setDiameter(?int $diameter): self
+    {
+        $this->diameter = $diameter;
         return $this;
     }
 }
