@@ -7,14 +7,16 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
 {
     #[Route('/api/order', name: 'api_order_create', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $em, MailerInterface $mailer): JsonResponse
+    public function create(Request $request, EntityManagerInterface $em): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
@@ -40,6 +42,11 @@ class OrderController extends AbstractController
         $em->persist($order);
         $em->flush();
 
+        // E-mail küldése
+        $dsn = $_ENV['MAILER_DSN'] ?? '';
+        $transport = Transport::fromDsn($dsn);
+        $mailer = new Mailer($transport);
+
         // Visszaigazoló e-mail
         $internalEmail = 'nagy.tamas@marso.hu';
         $email = (new Email())
@@ -49,7 +56,14 @@ class OrderController extends AbstractController
             ->subject('Rendelés visszaigazolás')
             ->text("Kedves {$order->getFirstName()} {$order->getLastName()},\n\nKöszönjük a rendelésed!\n\nRendelés ID: {$order->getId()}");
 
-        $mailer->send($email);
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            return new JsonResponse([
+                'success' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
 
         return new JsonResponse([
             'success' => true,
