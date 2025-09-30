@@ -36,6 +36,9 @@ class Order
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $createdAt = null;
 
+    #[ORM\ManyToOne(targetEntity: Cart::class)]
+    private ?Cart $cart = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -126,6 +129,16 @@ class Order
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+    public function setCart(?Cart $cart): self
+    {
+        $this->cart = $cart;
         return $this;
     }
 }

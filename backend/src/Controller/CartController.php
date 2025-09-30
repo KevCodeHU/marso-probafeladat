@@ -15,6 +15,11 @@ class CartController extends AbstractController
     private function getCart(EntityManagerInterface $em, Request $request): Cart
     {
         $session = $request->getSession();
+        if (!$session->isStarted()) {
+            $session->start();
+        }
+        $session->set('cart_active', true);
+
         $sessionId = $session->getId();
 
         $cart = $em->getRepository(Cart::class)->findOneBy(['sessionId' => $sessionId]);

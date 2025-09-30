@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CartItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Product;
 
 #[ORM\Entity(repositoryClass: CartItemRepository::class)]
 class CartItem
@@ -54,5 +56,10 @@ class CartItem
     {
         $this->quantity = $quantity;
         return $this;
+    }
+
+    public function fetchProduct(EntityManagerInterface $em): ?Product
+    {
+        return $em->getRepository(Product::class)->find($this->productId);
     }
 }
