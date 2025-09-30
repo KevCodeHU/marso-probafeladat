@@ -26,6 +26,8 @@ class ProductController extends AbstractController
                 'image' => $product->getImage(),
                 'description' => $product->getDescription(),
                 'category' => $product->getCategory()?->getName(),
+                'type' => $product->getType(),
+                'diameter' => $product->getDiameter(),
             ];
         }
 
@@ -49,6 +51,8 @@ class ProductController extends AbstractController
             'image' => $product->getImage(),
             'description' => $product->getDescription(),
             'category' => $product->getCategory()?->getName(),
+            'type' => $product->getType(),
+            'diameter' => $product->getDiameter(),
         ]);
     }
 }
