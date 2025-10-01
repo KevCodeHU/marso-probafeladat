@@ -1,21 +1,21 @@
 <template>
   <div>
     <!-- Keresés és szűrés -->
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <h2 class="text-2xl font-bold">Termékek</h2>
-      <div class="flex gap-2 flex-wrap">
-        <input v-model="q" placeholder="Keresés..." class="p-2 border rounded" @keyup.enter="search" />
-        <select v-model="type" class="p-2 border rounded">
+    <div class="bg-white rounded-2xl shadow-xl p-6 mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <h2 class="text-3xl font-extrabold text-red-700 mb-2 md:mb-0">Termékek</h2>
+      <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+        <input v-model="q" placeholder="Keresés..." class="w-full md:w-56 p-4 border border-gray-300 rounded-lg text-lg focus:outline-none focus:border-black" @keyup.enter="search" />
+        <select v-model="type" class="p-4 border border-gray-300 rounded-lg text-lg focus:outline-none focus:border-black min-w-[140px]">
           <option value="">Évszak</option>
           <option value="winter">Téli</option>
           <option value="summer">Nyári</option>
           <option value="all-season">4 évszak</option>
         </select>
-        <select v-model.number="diameter" class="p-2 border rounded w-32">
+        <select v-model.number="diameter" class="p-4 border border-gray-300 rounded-lg text-lg focus:outline-none focus:border-black min-w-[140px]">
           <option value="">Átmérő</option>
           <option v-for="d in diameters" :key="d" :value="d">{{ d }}</option>
         </select>
-        <button @click="search" class="bg-blue-600 text-white px-4 py-2 rounded">Szűrés</button>
+        <button @click="search" class="bg-red-700 hover:bg-black text-white px-8 py-3 rounded-xl text-lg font-bold shadow-md transition cursor-pointer">Szűrés</button>
       </div>
     </div>
 
@@ -27,10 +27,10 @@
     <!-- Lapozás -->
     <div class="mt-6 flex justify-center gap-2">
       <button @click="prevPage" :disabled="page === 1"
-        class="px-3 py-1 border rounded disabled:opacity-50">Előző</button>
-      <span class="px-3 py-1">{{ page }} / {{ totalPages }}</span>
+        class="px-5 py-2 border rounded-xl font-semibold text-gray-700 bg-white shadow disabled:opacity-50 hover:bg-gray-100 transition">Előző</button>
+      <span class="px-5 py-2 font-bold text-lg text-gray-700">{{ page }} / {{ totalPages }}</span>
       <button @click="nextPage" :disabled="page === totalPages"
-        class="px-3 py-1 border rounded disabled:opacity-50">Következő</button>
+        class="px-5 py-2 border rounded-xl font-semibold text-gray-700 bg-white shadow disabled:opacity-50 hover:bg-gray-100 transition">Következő</button>
     </div>
   </div>
 </template>
