@@ -8,14 +8,19 @@ async function request(path, options = {}) {
   })
 
   const text = await res.text()
+  let json = null
   try {
-    const json = text ? JSON.parse(text) : null
-    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} ${JSON.stringify(json)}`)
-    return json
+    json = text ? JSON.parse(text) : null
   } catch (e) {
-    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}: ${text}`)
-    return text
   }
+
+  if (!res.ok) {
+    if (json && json.error) {
+      throw new Error(json.error)
+    }
+    throw new Error(text)
+  }
+  return json
 }
 
 export const api = {

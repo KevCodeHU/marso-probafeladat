@@ -23,10 +23,48 @@ class OrderController extends AbstractController
 
         // Kötelező mezők ellenőrzése
         $required = ['firstName', 'lastName', 'zipCode', 'city', 'street', 'phone', 'email'];
+        $missing = [];
         foreach ($required as $field) {
             if (empty($data[$field])) {
-                return new JsonResponse(['error' => "$field is required"], 400);
+                $missing[] = $field;
             }
+        }
+
+        if (count($missing) > 1) {
+            return new JsonResponse(['error' => 'Minden mező kitöltése kötelező!'], 400);
+        }
+
+        // Egyedi hibaüzenetek
+        if (count($missing) === 1) {
+            $messages = [
+                'firstName' => 'Vezetéknév megadása kötelező!',
+                'lastName'  => 'Keresztnév megadása kötelező!',
+                'zipCode'   => 'Irányítószám megadása kötelező!',
+                'city'      => 'Város megadása kötelező!',
+                'street'    => 'Utca, házszám megadása kötelező!',
+                'phone'     => 'Telefonszám megadása kötelező!',
+                'email'     => 'E-mail cím megadása kötelező!'
+            ];
+            return new JsonResponse(['error' => $messages[$missing[0]]], 400);
+        }
+
+        // Formátum ellenőrzések/Validáció
+        if (preg_match('/\d/', $data['city'])) {
+            return new JsonResponse(['error' => 'A városnév nem tartalmazhat számot!'], 400);
+        }
+
+        if (!preg_match('/\d/', $data['street'])) {
+            return new JsonResponse(['error' => 'Az utca mezőnek tartalmaznia kell házszámot is!'], 400);
+        }
+
+        if (!preg_match('/^\d{6,}$/', preg_replace('/\D/', '', $data['phone']))) {
+            return new JsonResponse(['error' => 'Kérjük, érvényes telefonszámot adjon meg!'], 400);
+        }
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            return new JsonResponse(['error' => 'Kérjük, érvényes e-mail címet adjon meg!'], 400);
+        }
+        if (!preg_match('/^\d{4}$/', $data['zipCode'])) {
+            return new JsonResponse(['error' => 'Az irányítószám 4 számjegyű legyen!'], 400);
         }
 
         $session = $request->getSession();

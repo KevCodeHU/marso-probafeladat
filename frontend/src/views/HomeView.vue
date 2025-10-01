@@ -30,6 +30,9 @@ onMounted(async () => {
     } else if (list.items) {
       products.value = list.items.sort(() => 0.5 - Math.random()).slice(0, 6)
     }
+
+    const items = await api.getCart()
+    cartCount.value = items?.length || 0
   } catch (e) {
     console.error(e)
   }
